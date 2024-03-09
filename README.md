@@ -1,0 +1,1 @@
+This is an implementation of the sweep method for a tridiagonal matrix, done as a practical assignment in the course "Computational Methods" in the 4th year of study at St. Petersburg State University, Faculty of Mathematics and Mechanics, Astronomy
