@@ -10,11 +10,13 @@ subroutine det(alpha, beta, gamma, n)
     implicit none
     real(8), dimension(0:2) :: determinant
     integer i,n
+    real(8) :: eps
     real(8) :: alpha(:), beta(:), gamma(:)
 
     determinant(0) = 0
     determinant(1) = 1
-  
+
+    eps = 1.e-6
 
     ! we use formul: |f_n| = beta(n)*|f_n-1| - alpha(n-1)*gamma(n-1)*|f_n-2|
     do i = 1, n
@@ -29,8 +31,8 @@ subroutine det(alpha, beta, gamma, n)
         endif
     end do
 
-
-    if (determinant(2) == 0) then
+! we cannot compare real(8) with 0
+    if (abs(determinant(2)) < eps) then
         
         print*, "ERROR: There are an infinite number of solutions,&
          use the sweep method it is forbidden. The job has been forced to complete."
@@ -40,15 +42,30 @@ subroutine det(alpha, beta, gamma, n)
     
 end subroutine
 
+subroutine write_to_file(X, name)
+
+real(8) :: x(:)
+CHARACTER :: name
+CHARACTER(LEN=30) :: Format
+! format output in fortran
+10 format(f10.3)
+100 format(5x, a)
+
+! output the results to a file and to the screen
+    open(2, file = name)
+    write(2, 100) ' X '
+    write(*, 100) ' X '
+    write(2, 10)  x
+    write(*, 10)  x
+
+end subroutine
+
 
 function TDMASolve(alpha, beta, gamma, B, n) result(x)
     real(8), dimension(:) :: alpha, beta, gamma, B
     real(8), dimension(n) :: u, v, x
     integer :: i, n
-    CHARACTER(LEN=30) :: Format
-    ! format output in fortran
-    10 format(f10.3)
-    100 format(5x, a)
+
 
 
     call det(alpha, beta, gamma, n)
@@ -75,13 +92,6 @@ function TDMASolve(alpha, beta, gamma, B, n) result(x)
     do i = n, 2, -1
         x(i-1) = v(i-1)*x(i) + u(i-1)
     enddo
-
-    ! output the results to a file and to the screen
-    open(2, file = "output.txt")
-    write(2, 100) ' X '
-    write(*, 100) ' X '
-    write(2, 10)  x
-    write(*, 10)  x
 
 end function TDMASolve
 

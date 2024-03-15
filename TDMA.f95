@@ -5,9 +5,10 @@ implicit none
 integer :: n, k, i, err, io
 real(8), allocatable, dimension(:) :: alpha, beta, gamma, B, X
 
+
 ! opening input and count lines = n
 n=0
-open(1, file = 'input1.txt')
+open(1, file = 'input3.txt')
 do
 	read(1,*,iostat=io)
 	if (io/=0) EXIT
@@ -28,7 +29,7 @@ if (err /= 0) print *, "arrays: Allocation request denied"
 ! 	|0 .......0 alpha(n-2) beta(n-1) gamma(n-1) | 
 ! 	|0 ....................0 alpha(n-1) beta(n) | 
 
-open(1, file = 'input1.txt')
+open(1, file = 'input3.txt')
 
 read(1,*) beta(1), gamma(1), B(1)
 	do k = 2, n-1
@@ -38,6 +39,11 @@ read(1,*) alpha(n-1), beta(n), B(n)
 
 ! found X, we use the module where the sweep method is implemented 
 X = TDMASolve(alpha, beta, gamma, B, n)
+
+
+! write x to file .txt
+call write_to_file(X, "output.txt")
+
 
 ! don't forget to free up memory
 deallocate(alpha, beta, gamma, B, X, stat=err)
