@@ -7,7 +7,7 @@ real(8), allocatable, dimension(:) :: alpha, beta, gamma, B, X
 CHARACTER(LEN=30) :: name
 
 ! name of input files with koef
-name = "input1.txt"
+name = "input3.txt"
 
 ! opening input and count lines = n
 n=0

@@ -45,7 +45,7 @@ end subroutine
 subroutine write_to_file(X, name)
 
 real(8) :: x(:)
-CHARACTER :: name
+CHARACTER(LEN=10) :: name
 CHARACTER(LEN=30) :: Format
 ! format output in fortran
 10 format(f10.3)
