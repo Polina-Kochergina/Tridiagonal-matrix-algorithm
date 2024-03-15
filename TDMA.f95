@@ -4,11 +4,14 @@ implicit none
 		
 integer :: n, k, i, err, io
 real(8), allocatable, dimension(:) :: alpha, beta, gamma, B, X
+CHARACTER(LEN=30) :: name
 
+! name of input files with koef
+name = "input1.txt"
 
 ! opening input and count lines = n
 n=0
-open(1, file = 'input3.txt')
+open(1, file = name)
 do
 	read(1,*,iostat=io)
 	if (io/=0) EXIT
@@ -29,7 +32,7 @@ if (err /= 0) print *, "arrays: Allocation request denied"
 ! 	|0 .......0 alpha(n-2) beta(n-1) gamma(n-1) | 
 ! 	|0 ....................0 alpha(n-1) beta(n) | 
 
-open(1, file = 'input3.txt')
+open(1, file = name)
 
 read(1,*) beta(1), gamma(1), B(1)
 	do k = 2, n-1
